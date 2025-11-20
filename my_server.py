@@ -46,8 +46,8 @@ def get_template_file(owner: str, path: str) -> dict:
         "content": f"File at {path}/template.py in {owner}'s repository"
     }
 
-@mcp.resource("api://users{?limit,offset,sort}")
-def get_users_with_pagination(limit: int = 10, offset: int = 0, sort: str = "name") -> dict:
+@mcp.resource("api://{endpoint}{?limit,offset,sort}")
+def get_users_with_pagination(endpoint: str, limit: int = 10, offset: int = 0, sort: str = "name") -> dict:
     """Gets users with pagination and sorting query parameters.
     Example: api://users?limit=5&offset=10&sort=email
     Example: api://users?limit=20
@@ -65,6 +65,7 @@ def get_users_with_pagination(limit: int = 10, offset: int = 0, sort: str = "nam
         })
     
     return {
+        "endpoint": endpoint,
         "users": users,
         "pagination": {
             "limit": limit,
