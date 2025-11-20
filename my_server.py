@@ -55,6 +55,12 @@ def get_data(id: str, format: str = "json") -> str:
         return f"<data id='{id}' />"
     return f'{{"id": "{id}"}}'
 
+@mcp.resource("image://logo.png", mime_type="image/png")
+def get_logo() -> bytes:
+    """Provides the server's logo image."""
+    with open("logo.png", "rb") as f:
+        return f.read()
+
 @mcp.prompt()
 def generate_code_request(language: str, task_description: str) -> PromptMessage:
     """Generates a user message requesting code generation."""
