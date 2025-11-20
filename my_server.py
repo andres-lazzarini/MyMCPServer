@@ -23,5 +23,26 @@ def server_status() -> Dict[str, Any]:
         "version": "1.0.0"
     }
 
+@mcp.resource("resource://server/user/{user_id}")
+def user_info(user_id: str) -> Dict[str, Any]:
+    """
+    Dynamic resource template.
+
+    Any URI that matches:
+      resource://server/user/<ANY_VALUE>
+
+    will trigger this function with user_id injected.
+    """
+    return {
+        "requested_user": user_id,
+        "status": "ok",
+        "generated_at": int(time.time()),
+        "data": {
+            "name": f"User {user_id}",
+            "role": "tester",
+            "active": True
+        }
+    }
+
 if __name__ == "__main__":
     mcp.run()
