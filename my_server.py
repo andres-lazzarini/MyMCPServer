@@ -35,5 +35,16 @@ def get_weather(city: str) -> dict:
         "unit": "celsius"
     }
 
+@mcp.resource("repo://{owner}/{path*}/template.py")
+def get_template_file(owner: str, path: str) -> dict:
+    """Retrieves a file from a specific repository and path, but
+    only if the resource ends with `template.py`"""
+    # Can match repo://jlowin/fastmcp/src/resources/template.py
+    return {
+        "owner": owner,
+        "path": path + "/template.py",
+        "content": f"File at {path}/template.py in {owner}'s repository"
+    }
+
 if __name__ == "__main__":
     mcp.run()
