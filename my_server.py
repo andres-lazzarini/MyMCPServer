@@ -23,25 +23,16 @@ def server_status() -> Dict[str, Any]:
         "version": "1.0.0"
     }
 
-@mcp.resource("resource://server/user/{user_id}")
-def user_info(user_id: str) -> Dict[str, Any]:
-    """
-    Dynamic resource template.
-
-    Any URI that matches:
-      resource://server/user/<ANY_VALUE>
-
-    will trigger this function with user_id injected.
-    """
+@mcp.resource("weather://{city}/current")
+def get_weather(city: str) -> dict:
+    """Provides weather information for a specific city."""
+    # In a real implementation, this would call a weather API
+    # Here we're using simplified logic for example purposes
     return {
-        "requested_user": user_id,
-        "status": "ok",
-        "generated_at": int(time.time()),
-        "data": {
-            "name": f"User {user_id}",
-            "role": "tester",
-            "active": True
-        }
+        "city": city.capitalize(),
+        "temperature": 22,
+        "condition": "Sunny",
+        "unit": "celsius"
     }
 
 if __name__ == "__main__":
