@@ -46,35 +46,12 @@ def get_template_file(owner: str, path: str) -> dict:
         "content": f"File at {path}/template.py in {owner}'s repository"
     }
 
-@mcp.resource("api://{endpoint}{?limit,offset,sort}")
-def get_users_with_pagination(endpoint: str, limit: int = 10, offset: int = 0, sort: str = "name") -> dict:
-    """Gets users with pagination and sorting query parameters.
-    Example: api://users?limit=5&offset=10&sort=email
-    Example: api://users?limit=20
-    """
-    # Simulate user data based on pagination
-    total_users = 100
-    users = []
-    
-    for i in range(offset, min(offset + limit, total_users)):
-        users.append({
-            "id": i + 1,
-            "name": f"User {i + 1}",
-            "email": f"user{i + 1}@example.com",
-            "created_at": "2024-01-01T00:00:00Z"
-        })
-    
-    return {
-        "endpoint": endpoint,
-        "users": users,
-        "pagination": {
-            "limit": limit,
-            "offset": offset,
-            "total": total_users,
-            "has_next": offset + limit < total_users
-        },
-        "sort": sort
-    }
+@mcp.resource("data://{id}{?format}")
+def get_data(id: str, format: str = "json") -> str:
+    """Retrieve data in specified format."""
+    if format == "xml":
+        return f"<data id='{id}' />"
+    return f'{{"id": "{id}"}}'
 
 if __name__ == "__main__":
     mcp.run()
